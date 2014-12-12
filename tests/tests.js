@@ -21,6 +21,7 @@
 
     require(['tinymce.helper'], function (helper) {
         test("helper.getConfig()", function() {
+            console.log(helper.getConfig("advanced"));
             deepEqual(helper.getConfig("simple"), helper.getConfig("simple"), "helper.getConfig('simple') == helper.getConfig('simple')");
             notStrictEqual(helper.getConfig("simple"), helper.getConfig("simple"), "helper.getConfig() returns copy of object");
             deepEqual(helper.getConfig("advanced"), helper.getConfig("advanced"), "helper.getConfig('advanced') == helper.getConfig('advanced')");

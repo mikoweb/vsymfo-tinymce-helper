@@ -94,7 +94,7 @@
         "getConfig": {
             value: function (name) {
                 if (configuration[name] !== undefined) {
-                    return Object.create(configuration[name]);
+                    return jQuery.extend(true, {}, configuration[name]);
                 }
 
                 return {};
