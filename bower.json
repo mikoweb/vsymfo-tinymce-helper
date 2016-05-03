@@ -1,7 +1,7 @@
 {
-    "name": "vsymfo-tinymce-helper",
-    "version": "0.0.2",
-    "homepage": "https://github.com/mikoweb/vsymfo-tinymce-helper",
+    "name": "webui-tinymce-helper",
+    "version": "0.1.0",
+    "homepage": "https://github.com/mikoweb/webui-tinymce-helper",
     "authors": [
         "Rafał Mikołajun <rafal@vision-web.pl>"
     ],
@@ -12,9 +12,9 @@
         "node_modules"
     ],
     "devDependencies": {
-        "qunit": "1.16.0",
-        "requirejs": "~2.1.15",
-        "jquery": "~2.1.1",
-        "tinymce-dist": "~4.1.7"
+        "qunit": "~1.16.0",
+        "requirejs": "~2.1",
+        "jquery": "~2.1",
+        "tinymce-dist": "~4.3"
     }
 }

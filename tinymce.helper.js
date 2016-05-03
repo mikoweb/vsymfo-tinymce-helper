@@ -1,29 +1,59 @@
 (function () {
     "use strict";
 
-    var helper = {},
-        configuration = {};
+    var configuration = {},
+        alignSelectors = "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img";
 
     /**
-     * Predefiniowane ustawienia edytora
+     * @param {Object} obj
+     * @return {Object}
      */
+    function addAlignClasses (obj) {
+        obj.alignleft = {
+            selector: alignSelectors,
+            classes: "text-xs-left"
+        };
+
+        obj.aligncenter = {
+            selector: alignSelectors,
+            classes: "text-xs-center"
+        };
+
+        obj.alignright = {
+            selector: alignSelectors,
+            classes: "text-xs-right"
+        };
+
+        obj.alignfull = {
+            selector: alignSelectors,
+            classes: "text-justify"
+        };
+
+        return obj;
+    }
+
+    /**
+     * @param {Object} obj
+     * @returns {Object}
+     */
+    function addUnderline (obj) {
+        obj.underline = {inline : 'u'};
+        return obj;
+    }
+
+    /**
+     * @param {Object} obj
+     * @returns {Object}
+     */
+    function addStrike (obj) {
+        obj.strikethrough = {inline : 'del'};
+        return obj;
+    }
+
     Object.defineProperties(configuration, {
         "simple": {
             value: {
-                "formats": {
-                    "alignleft": {
-                        "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img",
-                        "classes":"text-left"
-                    },
-                    "aligncenter": {
-                        "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img",
-                        "classes":"text-center"
-                    },
-                    "alignright": {
-                        "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img",
-                        "classes":"text-right"
-                    }
-                }
+                "formats": addStrike(addUnderline(addAlignClasses({})))
             }
         },
         "advanced": {
@@ -38,20 +68,8 @@
                 "toolbar1": "preview | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
                 "toolbar2": "anchor link image media | fontsizeselect | forecolor backcolor | code | template",
                 "image_advtab": true,
-                "fontsize_formats": "0.5em 0.6em 0.7em 0.8em 0.9em 1em 1.1em 1.2em 1.3em 1.4em 1.5em 1.6em 1.7em 1.8em 1.9em 2em 2.2em 2.4em 2.6em 2.8em 3em",
-                "formats": {
-                    "alignleft": {
-                        "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img",
-                        "classes":"text-left"
-                    },
-                    "aligncenter": {
-                        "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img",
-                        "classes":"text-center"
-                    },"alignright": {
-                        "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img",
-                        "classes":"text-right"
-                    }
-                },
+                "fontsize_formats": "0.5rem 0.6rem 0.7rem 0.8rem 0.9rem 1rem 1.1rem 1.2rem 1.3rem 1.4rem 1.5rem 1.6rem 1.7rem 1.8rem 1.9rem 2rem 2.2rem 2.4rem 2.6rem 2.8rem 3rem",
+                "formats": addStrike(addUnderline(addAlignClasses({}))),
                 "templates": [
                     {
                         "title":"-----------------------------------------",
@@ -70,7 +88,7 @@
                     {
                         "title": "Floating",
                         "description": "http:\/\/getbootstrap.com\/css\/#helper-classes",
-                        "content": "<div class=clearfix><div class=pull-left>Float Left<\/div><div class=pull-right>Float Right<\/div><\/div>"
+                        "content": "<div class=clearfix><div class=pull-xs-left>Float Left<\/div><div class=pull-xs-right>Float Right<\/div><\/div>"
                     },
                     {
                         "title": "Simple Grid",
@@ -82,37 +100,29 @@
         }
     });
 
-    /**
-     * Predefiniowane ustawienia edytora
-     */
-    Object.defineProperties(helper, {
-        /**
-         * Pobierz predefiniowany obiekt konfiguracyjny
-         * @param {string} name
-         * @return {Object}
-         */
-        "getConfig": {
-            value: function (name) {
-                if (configuration[name] !== undefined) {
-                    return jQuery.extend(true, {}, configuration[name]);
+    define('tinymce.helper', ['jquery', 'tinymce.jquery'], function ($) {
+        return {
+            /**
+             * @param {String} name
+             * @returns {Object}
+             */
+            getConfig: function (name) {
+                if (typeof configuration[name] === 'undefined') {
+                    throw new Error('Not found config by name "' + name + '"');
                 }
 
-                return {};
-            }
-        },
-        /**
-         * Pobierz predefiniowany obiekt konfiguracyjny
-         * @param {jQuery} selector
-         * @param {Object} config
-         */
-        "initEditor": {
-            value: function (selector, config) {
+                return $.extend(true, {}, configuration[name]);
+            },
+            /**
+             * @param {jQuery} selector
+             * @param {Object} config
+             */
+            initEditor: function (selector, config) {
                 selector.tinymce(config);
-            }
-        }
-    });
-
-    define("tinymce.helper", ['tinymce.jquery'], function () {
-        return helper;
+            },
+            addAlignClasses: addAlignClasses,
+            addUnderline: addUnderline,
+            addStrike: addStrike
+        };
     });
 }());

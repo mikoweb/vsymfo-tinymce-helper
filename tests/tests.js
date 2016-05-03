@@ -27,7 +27,6 @@
             deepEqual(helper.getConfig("advanced"), helper.getConfig("advanced"), "helper.getConfig('advanced') == helper.getConfig('advanced')");
             notStrictEqual(helper.getConfig("advanced"), helper.getConfig("advanced"), "helper.getConfig() returns copy of object");
             notDeepEqual(helper.getConfig("simple"), helper.getConfig("advanced"), "helper.getConfig('simple') != helper.getConfig('advanced')");
-            deepEqual(helper.getConfig("not_exists"), {}, "helper.getConfig('not_exists') == {}");
             notDeepEqual(helper.getConfig("simple"), {}, "helper.getConfig('simple') != {}");
             notDeepEqual(helper.getConfig("advanced"), {}, "helper.getConfig('advanced') != {}");
         });
